@@ -1,6 +1,7 @@
 from flask import Flask,request
-from models import db,User
+from models import db,User,APILog
 from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 app=Flask(__name__)
 
@@ -35,9 +36,37 @@ def login():
     if not user or user.password != password:
         return {"message":"Invalid credentials"},401
     
-    token = create_access_token(identity=user.id)
+    token = create_access_token(identity=str(user.id))
 
     return {"token": token}
+
+@app.route('/profile',methods=['GET'])
+@jwt_required()
+def profile():
+    user_id = int(get_jwt_identity())
+    return {"message": f"welcome user {user_id}"}
+
+@app.route('/log',methods=['POST'])
+@jwt_required()
+def log_api():
+    data=request.json
+
+    endpoint=data.get('endpoint')
+    response_time=data.get('response_time')
+    status=data.get('status')
+
+    user_id=get_jwt_identity()
+
+    new_log=APILog(
+        endpoint=endpoint,
+        response_time=response_time,
+        status=status,
+        user_id=int(user_id)
+    )
+    db.session.add(new_log)
+    db.session.commit()
+
+    return {"message": "Log stored successfully"}
 
 
 @app.route('/')
