@@ -12,41 +12,29 @@
 body {
     background: #f4f6f9;
 }
-
 .navbar {
     background: linear-gradient(90deg, #1e3c72, #2a5298);
 }
-
 .card {
     border-radius: 12px;
 }
-
 .project-card {
     transition: 0.3s;
     cursor: pointer;
 }
-
 .project-card:hover {
     transform: scale(1.03);
 }
-
 .loading {
     display: none;
 }
 </style>
-
 </head>
-
 <body>
-
-<!-- NAVBAR -->
-
 <nav class="navbar navbar-dark px-4">
     <span class="navbar-brand">DevTrack</span>
     <button class="btn btn-danger" onclick="logout()">Logout</button>
 </nav>
-
-<!-- LOADING -->
 
 <div class="text-center mt-3 loading" id="loading">
     <div class="spinner-border text-primary"></div>
@@ -55,8 +43,6 @@ body {
 <div class="container mt-4">
 
 <h3 class="mb-3">Your Projects</h3>
-
-<!-- CREATE PROJECT -->
 <div class="card p-3 mb-4 shadow-sm">
     <div class="row">
         <div class="col-md-9">
@@ -67,12 +53,9 @@ body {
         </div>
     </div>
 </div>
-<!-- PROJECT LIST -->
 <div class="row" id="projects"></div>
 
 </div>
-
-<!-- TOAST -->  
 
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
   <div id="toast" class="toast align-items-center text-white bg-success border-0">
@@ -86,19 +69,15 @@ body {
 <script>
 
 let token = localStorage.getItem("token");
-
-// redirect if not logged in
 if (!token) {
     window.location.href = "login.html";
 }
 
-// logout
 function logout() {
     localStorage.clear();
     window.location.href = "login.html";
 }
 
-// toast
 function showToast(message, type="success") {
     const toastEl = document.getElementById("toast");
 
@@ -111,12 +90,10 @@ function showToast(message, type="success") {
     toast.show();
 }
 
-// loading
 function toggleLoading(show) {
     document.getElementById("loading").style.display = show ? "block" : "none";
 }
 
-// load projects
 async function loadProjects() {
     toggleLoading(true);
 
@@ -153,7 +130,6 @@ async function loadProjects() {
     toggleLoading(false);
 }
 
-// create project
 async function createProject() {
     const name = document.getElementById("projectName").value;
 
@@ -176,14 +152,12 @@ async function createProject() {
 
         const data = await res.json();
 
-        // ❌ if error from backend
-        if (!res.ok) {
+         if (!res.ok) {
             showToast(data.message || "Failed to create project", "error");
             toggleLoading(false);
             return;
         }
 
-        // ✅ success case only
         showToast("Project created successfully!");
         showToast("API Key: " + data.api_key);
 
@@ -198,18 +172,14 @@ async function createProject() {
     toggleLoading(false);
 }
 
-// open project
 function openProject(id) {
     localStorage.setItem("project_id", id);
     window.location.href = "project.html";
 }
 
-// load on start
 loadProjects();
 
 </script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>

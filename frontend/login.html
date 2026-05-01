@@ -17,33 +17,27 @@ body {
     align-items: center;
     font-family: Arial, sans-serif;
 }
-
 .card {
     width: 380px;
     border-radius: 15px;
 }
-
 .title {
     font-weight: bold;
     color: #2a5298;
 }
-
 .toggle-btn {
     cursor: pointer;
     color: #2a4298;
     text-decoration: underline;
 }
-
 .loading {
     display: none;
 }
 </style>
 
 </head>
-
 <body>
 <div class="card shadow p-4">
-
 <h3 class="text-center title mb-3">DevTrack</h3>
 
 <div id="loginForm">
@@ -51,7 +45,6 @@ body {
     <input id="login_password" type="password" class="form-control mb-3" placeholder="Password">
 
     <button class="btn btn-primary w-100 mb-2" onclick="login()">Login</button>
-
     <p class="text-center">
         New user? <span class="toggle-btn" onclick="showRegister()">Register</span>
     </p>
@@ -62,13 +55,10 @@ body {
     <input id="reg_password" type="password" class="form-control mb-3" placeholder="Password">
 
     <button class="btn btn-warning w-100 mb-2" onclick="register()">Register</button>
-
     <p class="text-center">
         Already have an account? <span class="toggle-btn" onclick="showLogin()">Login</span>
     </p>
 </div>
-
-<!-- LOADING -->
 <div class="text-center loading" id="loading">
     <div class="spinner-border text-primary"></div>
 </div>
@@ -96,7 +86,6 @@ function showLogin() {
     document.getElementById("loginForm").style.display = "block";
 }
 
-// LOGIN
 async function login() {
     const username = document.getElementById('login_username').value;
     const password = document.getElementById('login_password').value;
@@ -127,7 +116,6 @@ async function login() {
     toggleLoading(false);
 }
 
-// REGISTER
 async function register() {
     const username = document.getElementById('reg_username').value;
     const password = document.getElementById('reg_password').value;
@@ -166,7 +154,6 @@ function showToast(message, type="success") {
     toast.show();
 }
 
-// LOADING UI
 function toggleLoading(show) {
     document.getElementById("loading").style.display = show ? "block" : "none";
 }
